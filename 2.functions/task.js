@@ -17,6 +17,9 @@ function getArrayParams(...arr) {
 
   return { min: min, max: max, avg: avg };
 }
+getArrayParams(-99, 99, 10) // { min: -99, max: 99, avg: 3.33 }
+getArrayParams(1, 2, 3, -100, 10)  // { min: -100, max: 10, avg: -16.80 }
+getArrayParams(5)  // { min: 5, max: 5, avg: 5 }
 
 function summElementsWorker(...arr) {
  if (arr.length === 0) {
