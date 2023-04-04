@@ -1,3 +1,4 @@
+"use strict"
 function getArrayParams(...arr) {
   let min = arr[0];
   let max = arr[0];
