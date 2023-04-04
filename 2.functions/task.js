@@ -113,3 +113,16 @@ console.log(makeWork(arr, summElementsWorker)); // максимум из 61, 206
 console.log(makeWork(arr, differenceMaxMinWorker)); // максимум из 10, 86, 44, 66 => 86
 console.log(makeWork(arr, differenceEvenOddWorker)); // максимум из 39, -6, -184, 92 => 92
 console.log(makeWork(arr, averageEvenElementsWorker)); // максимум из 12.5, 33.333, 72, 62.666 => 72
+
+
+function makeWork(arrOfArr, func) {
+  let maxWorkerResult = func(...arrOfArr[0]);
+  for (let i = 1; i < arrOfArr.length; i++) {
+    const workerResult = func(...arrOfArr[i]);
+    if (workerResult > maxWorkerResult) {
+      maxWorkerResult = workerResult;
+    }
+  }
+  const arr = [[10, 10, 11, 20, 10], [67, 10, 2, 39, 88], [72, 75, 51, 87, 43], [30, 41, 55, 96, 62]];
+  return maxWorkerResult;
+}
