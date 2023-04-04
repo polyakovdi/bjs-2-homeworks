@@ -15,7 +15,7 @@ function getArrayParams(...arr) {
 
   const avg = +(sum / arr.length).toFixed(2);
 
-  return { min, max, avg};
+  return { min: min, max: max, avg: avg};
 }
 
 function summElementsWorker(...arr) {
