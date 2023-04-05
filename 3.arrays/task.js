@@ -7,11 +7,9 @@ function compareArrays(arr1, arr2) {
       });
     }
     
-function getUsersNamesInAgeRange(users, gender) {
-    function getUsersNamesInAgeRange(users, gender) {
-        const filteredUsers = users.filter(user => user.gender === gender);
-        const ageArray = filteredUsers.map(user => user.age);
-        const sumOfAges = ageArray.reduce((acc, cur) => acc + cur);
-        return sumOfAges / filteredUsers.length;
-      }
-}
+ function getUsersNamesInAgeRange(users, gender) {
+    const filteredUsers = users.filter(user => user.gender === gender);
+    const ageArray = filteredUsers.map(user => user.age);
+    const sumOfAges = ageArray.reduce((acc, cur) => acc + cur);
+    return sumOfAges / filteredUsers.length;
+    }
