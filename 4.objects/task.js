@@ -32,12 +32,12 @@ function Student(name, gender, age) {
     this.excluded = reason;
   };
   
-  const student1 = new Student("John", "male", 20);
-  const student2 = new Student("Mary", "female", 21);
+  const student1 = new Student("Василиса", "женский", 19);
+  const student2 = new Student("АртЁм", "мужской", 25);
   
-  student1.setSubject("Math");
-  student1.addMarks(5, 4, 5);
+  student1.setSubject("Algebra");
+  student1.addMarks(4, 5, 4, 5);
   console.log(student1.getAverage());
   
-  student2.exclude("cheating");
+  student2.exclude("Geometry");
   console.log(student2.excluded);
