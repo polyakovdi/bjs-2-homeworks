@@ -37,7 +37,7 @@ function Student(name, gender, age) {
   
   student1.setSubject("Math");
   student1.addMarks(5, 4, 5);
-  console.log(student1.getAverage()); // 4.67
+  console.log(student1.getAverage());
   
   student2.exclude("cheating");
-  console.log(student2.excluded); // cheating
+  console.log(student2.excluded);
