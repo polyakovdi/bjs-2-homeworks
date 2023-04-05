@@ -13,15 +13,15 @@ Student.prototype.addMarks = function (...marks) {
     if (!this.marks) {
         this.marks = [];
       }
-      this.marks.push(...marksToAdd);
+      marksToAdd.forEach(mark => this.marks.push(mark));
 }
 
 Student.prototype.getAverage = function () {
-    if (!this.marks || this.marks.length === 0) {
+    if (!this.marks || !this.marks.length) {
         return 0;
       }
-      const total = this.marks.reduce((acc, mark) => acc + mark, 0);
-      return total / this.marks.length; 
+      const sum = this.marks.reduce((total, mark) => total + mark);
+      return sum / this.marks.length;
 }
 
 Student.prototype.exclude = function (reason) {
