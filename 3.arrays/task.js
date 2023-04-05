@@ -7,7 +7,9 @@ function compareArrays(arr1, arr2) {
       });
     }
 
- function getUsersNamesInAgeRange(users, gender) {
-  let result = users.filter((user) => user.gender === gender).reduce((acc, user) => acc + user.age, 0);
-  return result;
+    function getUsersNamesInAgeRange(users, gender) {
+      const filteredUsers = users.filter((user) => user.gender === gender);
+      const totalAge = filteredUsers.map((user) => user.age).reduce((prev, curr) => prev + curr, 0);
+      const averageAge = totalAge / filteredUsers.length;
+      return averageAge;
     }
