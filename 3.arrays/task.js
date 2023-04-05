@@ -9,13 +9,8 @@ function compareArrays(arr1, arr2) {
     }
 
 function getUsersNamesInAgeRange(users, gender) {
-    const people = [];
     const filteredUsers = users.filter((people) => people.gender === gender);
     const ages = filteredUsers.map((people) => people.age);
     const sumOfAges = ages.reduce((total, age) => total + age, 0);
     return sumOfAges / filteredUsers.length;
 }
-console.log(getUsersNamesInAgeRange(people, "мужской")); // 32
-console.log(getUsersNamesInAgeRange(people, "женский")); // 27.4
-console.log(getUsersNamesInAgeRange([], "женский")); // 0
-console.log(getUsersNamesInAgeRange(people, "инопланетянин")); // 0
