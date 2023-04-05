@@ -1,8 +1,7 @@
 function compareArrays(arr1, arr2) {
     if (arr1.length !== arr2.length) {
-        return false; // если массивы разной длины, они уже не могут быть одинаковыми
+        return false; 
       }
-      // сравниваем каждый элемент arr1 с соответствующим элементом arr2
       return arr1.every(function(item, index) {
       return item === arr2[index];
       });
