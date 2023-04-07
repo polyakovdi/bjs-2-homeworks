@@ -95,30 +95,30 @@ class PrintEditionItem {
     }
   }
 
-  const library = new Library("Библиотека имени Ленина");
+  // создаем библиотеку
+let library = new Library('Городская библиотека');
 
-library.addBook(
- new DetectiveBook(
-   "Артур Конан Дойл",
-   "Полное собрание повестей и рассказов о Шерлоке Холмсе в одном томе",
-   2019,
-   1008
- )
-);
-library.addBook(
- new FantasticBook(
-   "Аркадий и Борис Стругацкие",
-   "Пикник на обочине",
-   1972,
-   168
- )
-);
-library.addBook(new NovelBook("Герберт Уэллс", "Машина времени", 1895, 138));
-library.addBook(new Magazine("Мурзилка", 1924, 60));
+// добавляем книги и журналы
+library.addBook(new Book('1984', 'Джордж Оруэлл', 1949, 50, 'Огонек'));
+library.addBook(new Book('Преступление и наказание', 'Федор Достоевский', 1866, 35, 'ЭКСМО'));
+library.addBook(new Magazine('National Geographic', 'National Geographic', 2021, 90, 4));
+library.addBook(new Magazine('Forbes', 'Steve Forbes', 2021, 70, 6));
 
-console.log(library.findBookBy("name", "Властелин колец")); //null
-console.log(library.findBookBy("releaseDate", 1924).name); //"Мурзилка"
+// находим книгу изданную в 1919 году
+let book1919 = library.findBookBy('year', 1919);
+if (!book1919) {
+  book1919 = new Book('Новая книга', 'Неизвестный автор', 1919, 70, 'Неизвестное издание');
+  library.addBook(book1919);
+}
 
-console.log("Количество книг до выдачи: " + library.books.length); //Количество книг до выдачи: 4
-library.giveBookByName("Машина времени");
-console.log("Количество книг после выдачи: " + library.books.length); //Количество книг после выдачи: 3
+// выдаем книгу
+let book = library.giveBookByName('1984');
+
+// "повреждаем" выданную книгу
+book.state = 20;
+
+// восстанавливаем выданную книгу
+book.state = 50;
+
+// пытаемся добавить восстановленную книгу обратно в библиотеку
+library.addBook(book); // книга не будет добавлена из-за низкого состояния
