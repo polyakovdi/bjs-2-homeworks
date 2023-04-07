@@ -120,10 +120,6 @@ console.log(issuedBook.state);
 library.addBook(issuedBook);
 console.log(library.findBookBy("name", "Анна на шее")); 
 
-class Student {
-  // ваш код
-}
-
 class Student{
   constructor(name){
       this.name = name;
