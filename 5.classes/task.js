@@ -140,7 +140,7 @@ class Student{
           return 0;
       }
       let sum = this.marks[subject].reduce((accumulator, currentValue) => accumulator + currentValue);
-      return sum / this.marks[subject].length,0;
+      return sum / this.marks[subject].length;
   }
 
   getAverage(){
@@ -149,6 +149,15 @@ class Student{
       for(let i=0; i<subjects.length; i++){
           sum += this.getAverageBySubject(subjects[i]);
       }
-      return sum / subjects.length,0;
+      return sum / subjects.length;
   }
 }
+const student = new Student("Олег Никифоров");
+student.addMark(5, "химия");
+student.addMark(5, "химия");
+student.addMark(5, "физика");
+student.addMark(4, "физика");
+student.addMark(6, "физика"); // Оценка не добавится, так как больше 5
+student.getAverageBySubject("физика"); // Средний балл по предмету физика 4.5
+student.getAverageBySubject("биология"); // Вернёт 0, так как по такому предмету нет никаких оценок.
+student.getAverage(); // Средний балл по всем предметам 4.75
