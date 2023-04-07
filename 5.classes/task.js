@@ -95,26 +95,30 @@ class PrintEditionItem {
     }
   }
 
-  const library = new Library('Библиотека им. Пушкина');
+  const library = new Library("Библиотека имени Ленина");
 
-const book1 = new Book('Гарри Поттер и философский камень', 'Роулинг', 1997, 350, 40);
-const book2 = new Book('Мастер и Маргарита', 'Булгаков', 1967, 420, 50);
-const journal = new Magazine('National Geographic', 2021, 4, 25);
+library.addBook(
+ new DetectiveBook(
+   "Артур Конан Дойл",
+   "Полное собрание повестей и рассказов о Шерлоке Холмсе в одном томе",
+   2019,
+   1008
+ )
+);
+library.addBook(
+ new FantasticBook(
+   "Аркадий и Борис Стругацкие",
+   "Пикник на обочине",
+   1972,
+   168
+ )
+);
+library.addBook(new NovelBook("Герберт Уэллс", "Машина времени", 1895, 138));
+library.addBook(new Magazine("Мурзилка", 1924, 60));
 
-library.addBook(book1);
-library.addBook(book2);
-library.addBook(journal);
+console.log(library.findBookBy("name", "Властелин колец")); //null
+console.log(library.findBookBy("releaseDate", 1924).name); //"Мурзилка"
 
-const foundBook = library.findBookBy('year', 1919);
-if (!foundBook) {
-  const newBook = new Book('Новая книга', 'Автор', 1919, 200, 80);
-  library.addBook(newBook);
-}
-
-const givenBook = library.giveBookByName('Мастер и Маргарита');
-givenBook.markAsDamaged();
-givenBook.repair();
-library.addBook(givenBook); // книга успешно добавлена обратно в библиотеку
-
-console.log(library.books); 
-// [Book, Book, Magazine, Book] - журнал не удовлетворяет условию метода addBook, выдача и возврат повредившейся книги прошли успешно, затем книга была успешно добавлена обратно в библиотеку.
+console.log("Количество книг до выдачи: " + library.books.length); //Количество книг до выдачи: 4
+library.giveBookByName("Машина времени");
+console.log("Количество книг после выдачи: " + library.books.length); //Количество книг после выдачи: 3
