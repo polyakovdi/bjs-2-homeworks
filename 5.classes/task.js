@@ -102,20 +102,20 @@ library.addBook(new Book("Достоевский", "Преступление и 
 library.addBook(new Magazine("National Geographic", 2021, 120));
 library.addBook(new Magazine("Forbes", 2021, 60));
 
-console.log(library.findBookBy("name", "Война и мир")); // Book {name: "Война и мир", releaseDate: 1869, pagesCount: 1225, state: 100, author: "Толстой"}
-console.log(library.findBookBy("releaseDate", 1919)); // null
+console.log(library.findBookBy("name", "Война и мир")); 
+console.log(library.findBookBy("releaseDate", 1919)); 
 
 const book = new Book("Чехов", "Анна на шее", 1895, 300);
 library.addBook(book);
 
 const issuedBook = library.giveBookByName("Анна на шее");
-console.log(issuedBook); // Book {name: "Анна на шее", releaseDate: 1895, pagesCount: 300, state: 100, author: "Чехов"}
+console.log(issuedBook); 
 
 issuedBook.state = 20;
-console.log(issuedBook.state); // 20
+console.log(issuedBook.state); 
 
 issuedBook.fix();
-console.log(issuedBook.state); // 30
+console.log(issuedBook.state); 
 
 library.addBook(issuedBook);
-console.log(library.findBookBy("name", "Анна на шее")); // null (книга не добавилась обратно в библиотеку, так как её состояние меньше 30)
+console.log(library.findBookBy("name", "Анна на шее")); 
