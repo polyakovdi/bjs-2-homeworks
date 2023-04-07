@@ -120,44 +120,45 @@ console.log(issuedBook.state);
 library.addBook(issuedBook);
 console.log(library.findBookBy("name", "Анна на шее")); 
 
-class Student{
-  constructor(name){
-      this.name = name;
-      this.marks = {};
-  }
-  
-  addMark(subject, mark){
-      if(mark >= 2 && mark <= 5){
-          if(!this.marks.hasOwnProperty(subject)){
-              this.marks[subject] = [];
-          }
-          this.marks[subject].push(mark);
-      }
+class Student {
+  constructor(name) {
+    this.name = name;
+    this.marks = {};
   }
 
-  getAverageBySubject(subject){
-      if(!this.marks.hasOwnProperty(subject)){
-          return 0;
-      }
-      let sum = this.marks[subject].reduce((accumulator, currentValue) => accumulator + currentValue);
-      return sum / this.marks[subject].length;
+  addMark(mark, subject) {
+    if (mark < 2 || mark > 5) {
+      console.log("Оценка должна быть от 2 до 5");
+      return;
+    }
+
+    if (!this.marks[subject]) {
+      this.marks[subject] = [];
+    }
+
+    this.marks[subject].push(mark);
   }
 
-  getAverage(){
-      let subjects = Object.keys(this.marks);
-      let sum = 0;
-      for(let i=0; i<subjects.length; i++){
-          sum += this.getAverageBySubject(subjects[i]);
-      }
-      return sum / subjects.length;
+  getAverageBySubject(subject) {
+    if (!this.marks[subject]) {
+      return 0;
+    }
+
+    const sum = this.marks[subject].reduce((acc, cur) => acc + cur);
+    return sum / this.marks[subject].length;
+  }
+
+  getAverage() {
+    const subjects = Object.keys(this.marks);
+
+    if (subjects.length === 0) {
+      return 0;
+    }
+
+    const sum = subjects.reduce((acc, subject) => {
+      return acc + this.getAverageBySubject(subject);
+    }, 0);
+
+    return sum / subjects.length;
   }
 }
-const student = new Student("Олег Никифоров");
-student.addMark(5, "химия");
-student.addMark(5, "химия");
-student.addMark(5, "физика");
-student.addMark(4, "физика");
-student.addMark(6, "физика"); // Оценка не добавится, так как больше 5
-student.getAverageBySubject("физика"); // Средний балл по предмету физика 4.5
-student.getAverageBySubject("биология"); // Вернёт 0, так как по такому предмету нет никаких оценок.
-student.getAverage(); // Средний балл по всем предметам 4.75
