@@ -95,30 +95,77 @@ class PrintEditionItem {
     }
   }
 
-  // создаем библиотеку
-let library = new Library('Городская библиотека');
+let library = new Library('Городская библиотека') 
 
-// добавляем книги и журналы
 library.addBook(new Book('1984', 'Джордж Оруэлл', 1949, 50, 'Огонек'));
 library.addBook(new Book('Преступление и наказание', 'Федор Достоевский', 1866, 35, 'ЭКСМО'));
 library.addBook(new Magazine('National Geographic', 'National Geographic', 2021, 90, 4));
 library.addBook(new Magazine('Forbes', 'Steve Forbes', 2021, 70, 6));
 
-// находим книгу изданную в 1919 году
 let book1919 = library.findBookBy('year', 1919);
 if (!book1919) {
   book1919 = new Book('Новая книга', 'Неизвестный автор', 1919, 70, 'Неизвестное издание');
   library.addBook(book1919);
 }
 
-// выдаем книгу
 let book = library.giveBookByName('1984');
 
-// "повреждаем" выданную книгу
 book.state = 20;
-
-// восстанавливаем выданную книгу
 book.state = 50;
+library.addBook(book); 
 
-// пытаемся добавить восстановленную книгу обратно в библиотеку
-library.addBook(book); // книга не будет добавлена из-за низкого состояния
+// реализация класса StudentReport
+class StudentReport {
+    constructor(name) {
+      this.name = name;
+      this.marks = {};
+    }
+  
+    addMark(subject, mark) {
+      if (mark < 2 || mark > 5) {
+        console.log(`Оценка должна быть в диапазоне от 2 до 5! Ошибка при добавлении оценки ${mark} для предмета ${subject} студента ${this.name}`);
+        return;
+      }
+      if (!this.marks.hasOwnProperty(subject)) {
+        this.marks[subject] = [];
+      }
+      this.marks[subject].push(mark);
+      console.log(`Оценка ${mark} для предмета ${subject} студента ${this.name} успешно добавлена!`);
+    }
+  
+    getAverageBySubject(subject) {
+      if (!this.marks.hasOwnProperty(subject)) {
+        console.log(`Предмет ${subject} отсутствует в журнале студента ${this.name}`);
+        return 0;
+      }
+      let sum = this.marks[subject].reduce((acc, mark) => acc + mark);
+      let average = sum / this.marks[subject].length;
+      return average;
+    }
+  
+    getAverage() {
+      let subjects = Object.keys(this.marks);
+      if (subjects.length === 0) {
+        console.log(`Журнал студента ${this.name} пуст!`);
+        return 0;
+      }
+      let sum = subjects.reduce((acc, subject) => acc + this.getAverageBySubject(subject), 0);
+      let average = sum / subjects.length;
+      return average;
+    }
+  }
+  
+  // создаем журнал студента и добавляем оценки по предметам
+  let student = new StudentReport('Иван Иванов');
+  student.addMark('Математика', 4);
+  student.addMark('Физика', 5);
+  student.addMark('Математика', 3);
+  student.addMark('Информатика', 2);
+  student.addMark('Физика', 3);
+  student.addMark('Астрономия', 5);
+  
+  // получаем среднюю оценку по предмету
+  console.log(`Средняя оценка по предмету "Физика" у студента ${student.name}: ${student.getAverageBySubject('Физика')}`);
+  
+  // получаем общую среднюю оценку
+  console.log(`Общая средняя оценка студента ${student.name}: ${student.getAverage()}`);
