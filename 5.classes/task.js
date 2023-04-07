@@ -119,3 +119,40 @@ console.log(issuedBook.state);
 
 library.addBook(issuedBook);
 console.log(library.findBookBy("name", "Анна на шее")); 
+
+class Student {
+  // ваш код
+}
+
+class Student{
+  constructor(name){
+      this.name = name;
+      this.marks = {};
+  }
+  
+  addMark(subject, mark){
+      if(mark >= 2 && mark <= 5){
+          if(!this.marks.hasOwnProperty(subject)){
+              this.marks[subject] = [];
+          }
+          this.marks[subject].push(mark);
+      }
+  }
+
+  getAverageBySubject(subject){
+      if(!this.marks.hasOwnProperty(subject)){
+          return 0;
+      }
+      let sum = this.marks[subject].reduce((accumulator, currentValue) => accumulator + currentValue);
+      return sum / this.marks[subject].length;
+  }
+
+  getAverage(){
+      let subjects = Object.keys(this.marks);
+      let sum = 0;
+      for(let i=0; i<subjects.length; i++){
+          sum += this.getAverageBySubject(subjects[i]);
+      }
+      return sum / subjects.length;
+  }
+}
