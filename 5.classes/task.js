@@ -95,77 +95,27 @@ class PrintEditionItem {
     }
   }
 
-let library = new Library('Городская библиотека') 
+  const library = new Library("Библиотека им. Ленина");
 
-library.addBook(new Book('1984', 'Джордж Оруэлл', 1949, 50, 'Огонек'));
-library.addBook(new Book('Преступление и наказание', 'Федор Достоевский', 1866, 35, 'ЭКСМО'));
-library.addBook(new Magazine('National Geographic', 'National Geographic', 2021, 90, 4));
-library.addBook(new Magazine('Forbes', 'Steve Forbes', 2021, 70, 6));
+library.addBook(new Book("Толстой", "Война и мир", 1869, 1225));
+library.addBook(new Book("Достоевский", "Преступление и наказание", 1866, 430));
+library.addBook(new Magazine("National Geographic", 2021, 120));
+library.addBook(new Magazine("Forbes", 2021, 60));
 
-let book1919 = library.findBookBy('year', 1919);
-if (!book1919) {
-  book1919 = new Book('Новая книга', 'Неизвестный автор', 1919, 70, 'Неизвестное издание');
-  library.addBook(book1919);
-}
+console.log(library.findBookBy("name", "Война и мир")); // Book {name: "Война и мир", releaseDate: 1869, pagesCount: 1225, state: 100, author: "Толстой"}
+console.log(library.findBookBy("releaseDate", 1919)); // null
 
-let book = library.giveBookByName('1984');
+const book = new Book("Чехов", "Анна на шее", 1895, 300);
+library.addBook(book);
 
-book.state = 20;
-book.state = 50;
-library.addBook(book); 
+const issuedBook = library.giveBookByName("Анна на шее");
+console.log(issuedBook); // Book {name: "Анна на шее", releaseDate: 1895, pagesCount: 300, state: 100, author: "Чехов"}
 
-// реализация класса StudentReport
-class StudentReport {
-    constructor(name) {
-      this.name = name;
-      this.marks = {};
-    }
-  
-    addMark(subject, mark) {
-      if (mark < 2 || mark > 5) {
-        console.log(`Оценка должна быть в диапазоне от 2 до 5! Ошибка при добавлении оценки ${mark} для предмета ${subject} студента ${this.name}`);
-        return;
-      }
-      if (!this.marks.hasOwnProperty(subject)) {
-        this.marks[subject] = [];
-      }
-      this.marks[subject].push(mark);
-      console.log(`Оценка ${mark} для предмета ${subject} студента ${this.name} успешно добавлена!`);
-    }
-  
-    getAverageBySubject(subject) {
-      if (!this.marks.hasOwnProperty(subject)) {
-        console.log(`Предмет ${subject} отсутствует в журнале студента ${this.name}`);
-        return 0;
-      }
-      let sum = this.marks[subject].reduce((acc, mark) => acc + mark);
-      let average = sum / this.marks[subject].length;
-      return average;
-    }
-  
-    getAverage() {
-      let subjects = Object.keys(this.marks);
-      if (subjects.length === 0) {
-        console.log(`Журнал студента ${this.name} пуст!`);
-        return 0;
-      }
-      let sum = subjects.reduce((acc, subject) => acc + this.getAverageBySubject(subject), 0);
-      let average = sum / subjects.length;
-      return average;
-    }
-  }
-  
-  // создаем журнал студента и добавляем оценки по предметам
-  let student = new StudentReport('Иван Иванов');
-  student.addMark('Математика', 4);
-  student.addMark('Физика', 5);
-  student.addMark('Математика', 3);
-  student.addMark('Информатика', 2);
-  student.addMark('Физика', 3);
-  student.addMark('Астрономия', 5);
-  
-  // получаем среднюю оценку по предмету
-  console.log(`Средняя оценка по предмету "Физика" у студента ${student.name}: ${student.getAverageBySubject('Физика')}`);
-  
-  // получаем общую среднюю оценку
-  console.log(`Общая средняя оценка студента ${student.name}: ${student.getAverage()}`);
+issuedBook.state = 20;
+console.log(issuedBook.state); // 20
+
+issuedBook.fix();
+console.log(issuedBook.state); // 30
+
+library.addBook(issuedBook);
+console.log(library.findBookBy("name", "Анна на шее")); // null (книга не добавилась обратно в библиотеку, так как её состояние меньше 30)
