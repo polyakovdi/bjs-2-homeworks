@@ -94,3 +94,27 @@ class PrintEditionItem {
       return null;
     }
   }
+
+  const library = new Library('Библиотека им. Пушкина');
+
+const book1 = new Book('Гарри Поттер и философский камень', 'Роулинг', 1997, 350, 40);
+const book2 = new Book('Мастер и Маргарита', 'Булгаков', 1967, 420, 50);
+const journal = new Magazine('National Geographic', 2021, 4, 25);
+
+library.addBook(book1);
+library.addBook(book2);
+library.addBook(journal);
+
+const foundBook = library.findBookBy('year', 1919);
+if (!foundBook) {
+  const newBook = new Book('Новая книга', 'Автор', 1919, 200, 80);
+  library.addBook(newBook);
+}
+
+const givenBook = library.giveBookByName('Мастер и Маргарита');
+givenBook.markAsDamaged();
+givenBook.repair();
+library.addBook(givenBook); // книга успешно добавлена обратно в библиотеку
+
+console.log(library.books); 
+// [Book, Book, Magazine, Book] - журнал не удовлетворяет условию метода addBook, выдача и возврат повредившейся книги прошли успешно, затем книга была успешно добавлена обратно в библиотеку.
