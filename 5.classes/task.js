@@ -149,6 +149,6 @@ class Student{
       for(let i=0; i<subjects.length; i++){
           sum += this.getAverageBySubject(subjects[i]);
       }
-      return sum / subjects.length;
+      return sum / subjects.length,0;
   }
 }
