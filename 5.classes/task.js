@@ -140,7 +140,7 @@ class Student{
           return 0;
       }
       let sum = this.marks[subject].reduce((accumulator, currentValue) => accumulator + currentValue);
-      return sum / this.marks[subject].length;
+      return sum / this.marks[subject].length,0;
   }
 
   getAverage(){
