@@ -62,14 +62,3 @@ class AlarmClock {
       this.alarmCollection = [];
     }
   }
-  
-  // создаем экземпляр будильника
-  let alarmClock = new AlarmClock();
-  
-  // добавляем звонки
-  alarmClock.addClock("08:00", () => console.log("Спать пора"), 1);
-  alarmClock.addClock("08:01", () => {console.log("Вставай уже!"); alarmClock.removeClock(2)}, 2);
-  alarmClock.addClock("08:01", () => console.log("Не проспи!"), 3);
-  
-  // стартуем будильник
-  alarmClock.start();
