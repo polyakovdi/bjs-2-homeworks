@@ -3,49 +3,50 @@ class AlarmClock {
       this.alarmCollection = [];
       this.intervalId = null;
     }
-    
+  
     addClock(time, callback, id) {
       if (!id) {
-        id = Math.random().toString(36).substr(2, 9);
+        id = Math.random().toString().substr(2, 6);
       }
+  
       if (this.alarmCollection.find(item => item.id === id)) {
         console.warn('Уже присутствует звонок с таким id');
         return;
       }
-      if (!time || !callback) {
-        throw new Error('Отсутствуют обязательные аргументы');
-      }
+  
       this.alarmCollection.push({id, time, callback, canCall: true});
     }
   
     removeClock(id) {
       const index = this.alarmCollection.findIndex(item => item.id === id);
+  
       if (index === -1) {
         return false;
       }
+  
       this.alarmCollection.splice(index, 1);
       return true;
     }
   
     getCurrentFormattedTime() {
-      const now = new Date();
-      return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      return new Date().toTimeString().slice(0, 5);
     }
   
     start() {
       if (this.intervalId !== null) {
         return;
       }
-      const checkClocks = () => {
-        this.alarmCollection.forEach(item => {
-          if (item.time === this.getCurrentFormattedTime() && item.canCall) {
-            item.canCall = false;
-            item.callback();
-          }
-        });
-      };
-      checkClocks();
-      this.intervalId = setInterval(checkClocks, 1000);
+  
+      const checkClock = (alarm) => {
+        if (alarm.time === this.getCurrentFormattedTime() && alarm.canCall) {
+          alarm.canCall = false;
+          alarm.callback();
+        }
+      }
+  
+      this.intervalId = setInterval(() => {
+        this.alarmCollection.forEach(item => checkClock(item));
+      }, 1000);
     }
   
     stop() {
@@ -61,7 +62,7 @@ class AlarmClock {
       this.stop();
       this.alarmCollection = [];
     }
-  } 
+  }
   
   // Пример использования
   const alarmClock = new AlarmClock();
