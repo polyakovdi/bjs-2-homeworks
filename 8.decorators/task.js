@@ -21,16 +21,17 @@ return wrapper;
 }
 
 
-function debounceDecoratorNew(func, ms) {  
+
+function debounceDecorator2(func, ms) {
   let timerId = null;
-  function wrapper (...args){
+  function wrapper(...args){
     if (timerId === null) {
       func(...args);
     }
     clearTimeout(timerId);
     timerId = setTimeout(() => timerId = null, ms);
+    wrapper.count++;
   }
   return wrapper;
-} 
-
+}
 
