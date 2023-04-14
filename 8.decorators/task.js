@@ -22,7 +22,7 @@ return wrapper;
 
 //Задача № 2
 function debounceDecoratorNew(func, delay) {
-  let timeoutId;
+  let timeoutId = null;
   let count = 0;
   let allCount = 0;
 
