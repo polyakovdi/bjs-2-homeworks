@@ -1,19 +1,26 @@
 class AlarmClock {
-
     constructor() {
-      this.alarmCollection = [];
-      this.intervalId = null;
+      this.alarmCollection = []; // массив звонков
+      this.intervalId = null; // id для таймера
     }
   
-    addClock(time, callback, id) {
-      if (!id) {
-        throw new Error('Отсутствуют обязательные аргументы');
+    addClock(time, callback, id) { // добавление нового звонка
+      if (!id) { // если id не передан, используется автоматически сгенерированный
+        id = Math.random().toString();
       }
-      if (this.alarmCollection.some(alarm => alarm.id === id)) {
+      // проверка наличия звонка с таким же временем
+      let isExist = this.alarmCollection.some(alarm => alarm.id === id);
+      if (isExist) {
         console.warn('Уже присутствует звонок на это же время');
         return;
       }
-      this.alarmCollection.push({id, time, callback, canCall: true});
+      // добавляем звонок
+      this.alarmCollection.push({
+        id,
+        time,
+        callback,
+        canCall: true
+      });
     }
   
     removeClock(id) {
