@@ -29,7 +29,7 @@ function debounceDecoratorNew(func, delay) {
   function wrapper(...args) {
     allCount++;
     
-    if (timeoutId) {
+    if (!timeoutId) {
       func.apply(this, args);
       count++;
     } else {
