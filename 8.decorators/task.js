@@ -54,18 +54,3 @@ function debounceDecoratorNew(delay) {
   };
 }
 
-const debounce = debounceWithCount(1000);
-
-function myFunc() {
-  console.log("Function called");
-}
-
-const debouncedFunc = debounce(myFunc);
-
-debouncedFunc(); // Function called
-debouncedFunc(); // (no output)
-debouncedFunc(); // (no output)
-
-console.log(debouncedFunc.count); // 1
-console.log(debouncedFunc.allCount); // 3
-
