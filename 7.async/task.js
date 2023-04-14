@@ -63,29 +63,3 @@ class AlarmClock {
       this.alarmCollection = [];
     }
   }
-  
-  // Пример использования
-  const alarmClock = new AlarmClock();
-  
-  // добавляем звонки
-  alarmClock.addClock("08:00", () => console.log("Звонок 1"), '1');
-  alarmClock.addClock("08:01", () => console.log("Звонок 2"), '2');
-  alarmClock.addClock("08:02", () => {
-    console.log("Звонок 3");
-    alarmClock.removeClock('2'); // удаляем звонок с id 2
-  }, '3');
-  
-  // запускаем будильник
-  alarmClock.start();
-  
-  // останавливаем будильник через 10 секунд
-  setTimeout(() => alarmClock.stop(), 10000);
-  
-  // сбрасываем возможность запуска всех звонков и добавляем новый звонок
-  setTimeout(() => {
-    alarmClock.resetAllCalls();
-    alarmClock.addClock("08:03", () => console.log("Звонок 4"), '4');
-  }, 15000);
-  
-  // удаляем все звонки через 20 секунд
-  setTimeout(() => alarmClock.clearAlarms(), 20000);
