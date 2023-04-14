@@ -20,4 +20,37 @@ function wrapper(...args) {
 return wrapper;
 }
 
+function debounceWithCount(delay) {
+  let timeoutId;
+  let count = 0;
+  let allCount = 0;
+
+  return function (func) {
+    function wrapper(...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      } else {
+        func.count = 0;
+      }
+
+      timeoutId = setTimeout(() => {
+        timeoutId = null;
+      }, delay);
+
+      const result = func.apply(this, args);
+      func.count++;
+      count++;
+
+      wrapper.count = func.count;
+      wrapper.allCount = count;
+
+      return result;
+    }
+
+    wrapper.count = 0;
+    wrapper.allCount = 0;
+
+    return wrapper;
+  };
+}
 
