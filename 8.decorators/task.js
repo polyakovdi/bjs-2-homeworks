@@ -20,29 +20,37 @@ function wrapper(...args) {
 return wrapper;
 }
 
-function debounceDecoratorNew(func, delay) {  
-  let timeoutId = null;
-  function wrapper (...args){
-    if (timeoutId === null) {
-      func(...args);
+function debounceDecoratorNew(func, delay) {
+  let timeoutId;
+  let count = 0;
+  let allCount = 0;
+  
+  function wrapper(...args) {
+    allCount++;
+
+    if (!timeoutId) {
+      func.apply(this, args);
+      count++;
+    } else {
+      clearTimeout(timeoutId);
     }
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => timeoutId = null, delay);
+    
+    timeoutId = setTimeout(() => {
+      timeoutId = null;
+      func.apply(this, args);
+      count++;
+    }, delay);
   }
+  
+  wrapper.count = function() {
+    return count;
+  }
+  
+  wrapper.allCount = function() {
+    return allCount;
+  }
+  
   return wrapper;
 } 
-
-function debounceDecoratorNew(func, delay) {
-  let timeoutId = null;
-  function wrapper(...args){
-    if (timeoutId === null) {
-      func(...args);
-    }
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => timeoutId = null, delay);
-    wrapper.count++;
-  }
-  return wrapper;
-}
 
 
