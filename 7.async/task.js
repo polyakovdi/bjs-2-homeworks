@@ -3,49 +3,49 @@ class AlarmClock {
       this.alarmCollection = [];
       this.intervalId = null;
     }
-  
+    
     addClock(time, callback, id) {
       if (!id) {
         id = Math.random().toString(36).substr(2, 9);
       }
-      if (this.alarmCollection.some(alarm => alarm.id === id)) {
-        console.warn('Звонок с таким id уже существует');
+      if (this.alarmCollection.find(item => item.id === id)) {
+        console.warn('Уже присутствует звонок с таким id');
         return;
       }
-      this.alarmCollection.push({ id, time, callback });
+      if (!time || !callback) {
+        throw new Error('Отсутствуют обязательные аргументы');
+      }
+      this.alarmCollection.push({id, time, callback, canCall: true});
     }
   
     removeClock(id) {
-      const index = this.alarmCollection.findIndex(alarm => alarm.id === id);
+      const index = this.alarmCollection.findIndex(item => item.id === id);
       if (index === -1) {
-        console.warn('Звонок с таким id не найден');
-        return;
+        return false;
       }
       this.alarmCollection.splice(index, 1);
+      return true;
     }
   
     getCurrentFormattedTime() {
       const now = new Date();
-      return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+      return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
   
     start() {
       if (this.intervalId !== null) {
         return;
       }
-      this.intervalId = setInterval(() => {
-        const currentTime = this.getCurrentFormattedTime();
-        this.alarmCollection.forEach(alarm => {
-          if (alarm.time === currentTime) {
-            if (alarm.canCall) {
-              alarm.canCall = false;
-              alarm.callback();
-            }
-          } else {
-            alarm.canCall = true;
+      const checkClocks = () => {
+        this.alarmCollection.forEach(item => {
+          if (item.time === this.getCurrentFormattedTime() && item.canCall) {
+            item.canCall = false;
+            item.callback();
           }
         });
-      }, 1000);
+      };
+      checkClocks();
+      this.intervalId = setInterval(checkClocks, 1000);
     }
   
     stop() {
@@ -54,43 +54,37 @@ class AlarmClock {
     }
   
     resetAllCalls() {
-      this.alarmCollection.forEach(alarm => alarm.canCall = true);
+      this.alarmCollection.forEach(item => item.canCall = true);
     }
   
     clearAlarms() {
       this.stop();
       this.alarmCollection = [];
     }
-  }
+  } 
   
-  const clock = new AlarmClock();
+  // Пример использования
+  const alarmClock = new AlarmClock();
   
-  // Добавляем звонок на 10:30
-  clock.addClock('10:30', () => console.log('Просыпайся!'), 1);
+  // добавляем звонки
+  alarmClock.addClock("08:00", () => console.log("Звонок 1"), '1');
+  alarmClock.addClock("08:01", () => console.log("Звонок 2"), '2');
+  alarmClock.addClock("08:02", () => {
+    console.log("Звонок 3");
+    alarmClock.removeClock('2'); // удаляем звонок с id 2
+  }, '3');
   
-  // Пробуем добавить звонок на то же время (должно вывести предупреждение)
-  clock.addClock('10:30', () => console.log('Вставай!'), 2);
+  // запускаем будильник
+  alarmClock.start();
   
-  // Добавляем звонок на 10:35
-  clock.addClock('10:35', () => console.log('Пора вставать!'), 3);
+  // останавливаем будильник через 10 секунд
+  setTimeout(() => alarmClock.stop(), 10000);
   
-  // Удаляем звонок с id = 2
-  clock.removeClock(2);
-  
-  // Запускаем будильник
-  clock.start();
-  
-  // Ждем 10 секунд и останавливаем будильник
+  // сбрасываем возможность запуска всех звонков и добавляем новый звонок
   setTimeout(() => {
-    clock.stop();
-  }, 10000);
-  
-  // Ждем еще 5 секунд и сбрасываем возможность запуска всех звонков
-  setTimeout(() => {
-    clock.resetAllCalls();
+    alarmClock.resetAllCalls();
+    alarmClock.addClock("08:03", () => console.log("Звонок 4"), '4');
   }, 15000);
   
-  // Ждем еще 5 секунд и удаляем все звонки
-  setTimeout(() => {
-    clock.clearAlarms();
-  }, 20000);
+  // удаляем все звонки через 20 секунд
+  setTimeout(() => alarmClock.clearAlarms(), 20000);
