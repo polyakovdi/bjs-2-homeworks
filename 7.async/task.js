@@ -69,7 +69,7 @@ class AlarmClock {
   // добавляем звонки
   alarmClock.addClock("08:00", () => console.log("Звонок 1"), '1');
   alarmClock.addClock("08:01", () => console.log("Звонок 2"), '2');
-  alarmClock.addClock("08:02", () => console.log("Звонок 3"),'3');
+  alarmClock.addClock("08:02", () => console.log("Звонок 3"), '3');
   //alarmClock.removeClock('2'); // удаляем звонок с id 2 
   
   // запускаем будильник
