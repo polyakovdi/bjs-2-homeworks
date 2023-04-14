@@ -27,54 +27,22 @@ function debounceDecoratorNew(func, delay) {
       func(...args);
     }
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => timerId = null, delay);
+    timeoutId = setTimeout(() => timeoutId = null, delay);
   }
   return wrapper;
 } 
 
-function debounceDecorator2(func, ms) {
-  let timerId = null;
+function debounceDecoratorNew(func, delay) {
+  let timeoutIdd = null;
   function wrapper(...args){
-    if (timerId === null) {
+    if (timeoutId === null) {
       func(...args);
     }
-    clearTimeout(timerId);
-    timerId = setTimeout(() => timerId = null, ms);
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => timeoutId = null, delay);
     wrapper.count++;
   }
   return wrapper;
 }
-//Задача № 2
-function debounceDecoratorNew(func, delay) {
-  let timeoutId;
-  let count = 0;
-  let allCount = 0;
-  
-  function wrapper(...args) {
-    allCount++;
 
-    if (!timeoutId) {
-      func.apply(this, args);
-      count++;
-    } else {
-      clearTimeout(timeoutId);
-    }
-    
-    timeoutId = setTimeout(() => {
-      timeoutId = null;
-      func.apply(this, args);
-      count++;
-    }, delay);
-  }
-  
-  wrapper.count = function() {
-    return count;
-  }
-  
-  wrapper.allCount = function() {
-    return allCount;
-  }
-  
-  return wrapper;
-}
 
