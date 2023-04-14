@@ -1,65 +1,81 @@
 class AlarmClock {
     constructor() {
-      this.alarmCollection = [];
-      this.intervalId = null;
+      this.alarmCollection = []; // массив звонков
+      this.intervalId = null; // id для таймера
     }
   
-    addClock(time, callback, id) {
-      if (!id) {
-        id = Math.random().toString().substr(2, 6);
+    addClock(time, callback, id) { // добавление нового звонка
+      if (!id) { // если id не передан, используется автоматически сгенерированный
+        id = Math.random().toString();
       }
-  
-      if (this.alarmCollection.find(item => item.id === id)) {
-        console.warn('Уже присутствует звонок с таким id');
+      // проверка наличия звонка с таким же временем
+      let isExist = this.alarmCollection.some(alarm => alarm.id === id);
+      if (isExist) {
+        console.warn('Уже присутствует звонок на это же время');
         return;
       }
-  
-      this.alarmCollection.push({id, time, callback, canCall: true});
+      // добавляем звонок
+      this.alarmCollection.push({
+        id,
+        time,
+        callback,
+        canCall: true
+      });
     }
   
-    removeClock(id) {
-      const index = this.alarmCollection.findIndex(item => item.id === id);
-  
-      if (index === -1) {
-        return false;
+    removeClock(id) { // удаление звонка
+      let index = this.alarmCollection.findIndex(alarm => alarm.id === id);
+      if (index !== -1) {
+        this.alarmCollection.splice(index, 1);
+        return true;
       }
-  
-      this.alarmCollection.splice(index, 1);
-      return true;
+      return false;
     }
   
-    getCurrentFormattedTime() {
-      return new Date().toTimeString().slice(0, 5);
+    getCurrentFormattedTime() { // текущее время в формате HH:MM
+      let date = new Date();
+      let hours = date.getHours().toString().padStart(2, 0);
+      let minutes = date.getMinutes().toString().padStart(2, 0);
+      return `${hours}:${minutes}`;
     }
   
-    start() {
-      if (this.intervalId !== null) {
-        return;
+    start() { // запуск будильника
+      if (this.intervalId === null) {
+        // создаем интервал в 1 секунду для проверки звонков
+        this.intervalId = setInterval(() => {
+          this.alarmCollection.forEach(alarm => {
+            // проверяем возможность запуска звонка
+            if (alarm.time === this.getCurrentFormattedTime() && alarm.canCall) {
+              alarm.canCall = false; // устанавливаем признак запуска звонка
+              alarm.callback(); // вызываем колбек
+            }
+          })
+        }, 1000);
       }
-  
-      const checkClock = (alarm) => {
-        if (alarm.time === this.getCurrentFormattedTime() && alarm.canCall) {
-          alarm.canCall = false;
-          alarm.callback();
-        }
-      }
-  
-      this.intervalId = setInterval(() => {
-        this.alarmCollection.forEach(item => checkClock(item));
-      }, 1000);
     }
   
-    stop() {
+    stop() { // остановка будильника
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
   
-    resetAllCalls() {
-      this.alarmCollection.forEach(item => item.canCall = true);
+    resetAllCalls() { // сброс возможности запуска всех звонков
+      this.alarmCollection.forEach(alarm => alarm.canCall = true);
     }
   
-    clearAlarms() {
+    clearAlarms() { // удаление всех звонков
       this.stop();
       this.alarmCollection = [];
     }
   }
+  
+  // создаем экземпляр будильника
+  let alarmClock = new AlarmClock();
+  
+  // добавляем звонки
+  alarmClock.addClock("08:00", () => console.log("Спать пора"), 1);
+  alarmClock.addClock("08:01", () => {console.log("Вставай уже!"); alarmClock.removeClock(2)}, 2);
+  alarmClock.addClock("08:01", () => console.log("Не проспи!"), 3);
+  
+  // стартуем будильник
+  alarmClock.start();
