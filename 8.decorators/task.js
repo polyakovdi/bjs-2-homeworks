@@ -33,7 +33,7 @@ function debounceDecoratorNew(func, delay) {
       count++;
     } 
     clearTimeout(timeoutId);
-    timeoutId = setTimeout((func, delay) => {
+    timeoutId = setTimeout(() => {
       timeoutId = null;
       func.apply(this, args);
       count++;
