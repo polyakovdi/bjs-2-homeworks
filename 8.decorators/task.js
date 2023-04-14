@@ -22,32 +22,35 @@ return wrapper;
 
 //Задача № 2
 function debounceDecoratorNew(func, delay) {
-  let timeoutId = null;
+  let timeoutId;
   let count = 0;
   let allCount = 0;
-
+  
   function wrapper(...args) {
     allCount++;
-    count++;
-    if (timeoutId) {
+    
+    if (!timeoutId) {
+      func.apply(this, args);
+      count++;
+    } else {
       clearTimeout(timeoutId);
     }
-    if (!timeoutId) {
-      const result = func.apply(this, args);
-      count = 0;
-      return result;
-    }
+    
     timeoutId = setTimeout(() => {
-      const result = func.apply(this, args);
-      count = 0;
       timeoutId = null;
-      return result;
+      func.apply(this, args);
+      count++;
     }, delay);
   }
-
-  wrapper.count = () => count;
-  wrapper.allCount = () => allCount;
-
+  
+  wrapper.count = function() {
+    return count;
+  }
+  
+  wrapper.allCount = function() {
+    return allCount;
+  }
+  
   return wrapper;
 }
 
