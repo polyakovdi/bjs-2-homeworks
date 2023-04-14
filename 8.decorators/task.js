@@ -20,7 +20,7 @@ function wrapper(...args) {
 return wrapper;
 }
 
-function debounceWithCount(delay) {
+function debounceDecoratorNew(delay) {
   let timeoutId;
   let count = 0;
   let allCount = 0;
