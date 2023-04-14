@@ -33,7 +33,7 @@ function debounceDecoratorNew(func, delay) {
 } 
 
 function debounceDecoratorNew(func, delay) {
-  let timeoutIdd = null;
+  let timeoutId = null;
   function wrapper(...args){
     if (timeoutId === null) {
       func(...args);
