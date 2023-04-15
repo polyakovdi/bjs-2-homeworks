@@ -21,34 +21,31 @@ return wrapper;
 }
 
 function debounceDecoratorNew(func, delay) {
-  let timeout;
-  let count = 0;
-  let allCount = 0;
-  
-  function wrapper(...args) {
-    allCount++;
+  let timeout = null;
 
-    if (!timeout) {
-      func.apply(this, args);
-      count++;
-    } 
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      timeout = null;
-      func.apply(this, args);
-      count++;
-    }, delay);
+  function wrapper(...args) {
+
+    if (timeout === null)
+    {
+      func(...args);
+      wrapper.count++;
+    }
+
+    if(timeout) {
+      clearTimeout(timeout);
+    }
+    
+      timeout = setTimeout(() => {
+      timeout = true;
+      func(...args);
+      wrapper.count++;
+      }, delay);
+      wrapper.allCount++;
   }
   
-  wrapper.count = function() {
-    return count;
+  wrapper.count = 0 
+  wrapper.allCount = 0 
+    return wrapper;
   }
-  
-  wrapper.allCount = function() {
-    return allCount;
-  }
-  
-  return wrapper;
-} 
 
 
